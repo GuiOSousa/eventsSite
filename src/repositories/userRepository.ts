@@ -32,5 +32,13 @@ export class UserRepository {
 
         return User.fromPrismaArray(users)
     }
+
+    static async getByEmail(email: string): Promise<User | null> {
+        const prisma = new PrismaClient()
+        const userData = await prisma.user.findUnique(
+            {where: { email: email }}
+        )
+        return userData ? User.fromPrisma(userData) : null
+    }
 }
 

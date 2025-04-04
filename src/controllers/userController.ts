@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/userService";
+import { z } from "zod";
 
 export class UserController {
 
@@ -16,6 +17,20 @@ export class UserController {
 	static async getUserById(req: Request, res: Response): Promise<any> {
 		try {
 			const user = await UserService.getUserById(req.params.id);
+			if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
+			res.json(user);
+		} catch (error: any) {
+			res.status(500).json({ message: "Erro ao buscar usuário", error: error.message });
+		}
+	}
+
+	static async getUserByEmail(req: Request, res: Response): Promise<any> {
+		try {
+			const userSchema = z.object({
+				email: z.string().email()
+			})
+			const userData = userSchema.parse(req.body)
+			const user = await UserService.getUserByEmail(userData);
 			if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
 			res.json(user);
 		} catch (error: any) {

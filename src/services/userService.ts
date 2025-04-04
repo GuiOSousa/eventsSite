@@ -19,6 +19,10 @@ export class UserService {
         return await UserRepository.getById(id)
     }
 
+    static async getUserByEmail(params: any): Promise<User | null>{
+        const email = params.email
+        return await UserRepository.getByEmail(email)
+    }
 
 
     static async getAllUsers(): Promise<User[]> {
