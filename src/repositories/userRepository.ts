@@ -44,7 +44,6 @@ export class UserRepository {
     static async update(userData: User): Promise <User> {
         const prisma = new PrismaClient()
         const id = userData.id
-        const user = await this.getById(id)
 
         await prisma.user.update({
             where: { id },
