@@ -32,5 +32,40 @@ export class UserRepository {
 
         return User.fromPrismaArray(users)
     }
+
+    static async getByEmail(email: string): Promise<User | null> {
+        const prisma = new PrismaClient()
+        const userData = await prisma.user.findUnique(
+            {where: { email: email }}
+        )
+        return userData ? User.fromPrisma(userData) : null
+    }
+
+    static async update(userData: User): Promise <User> {
+        const prisma = new PrismaClient()
+        const id = userData.id
+        const user = await this.getById(id)
+
+        await prisma.user.update({
+            where: { id },
+            data: {
+                username: userData.username,
+                name: userData.name,
+                cpf: userData.cpf,
+                email: userData.email,
+                password: userData.password
+            }
+        })
+        
+        return userData
+    }
+
+    static async delete(id: string) {
+        const prisma = new PrismaClient()
+        await prisma.user.delete({
+            where: {id}
+        })
+        return
+    }
 }
 
