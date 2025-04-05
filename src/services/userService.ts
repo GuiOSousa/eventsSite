@@ -1,5 +1,6 @@
 import { UserRepository } from "../repositories/userRepository"
 import { User } from "../entities/User"
+import { UserNotFoundError } from "../errors/clientErrors/ClientErrors"
 
 export class UserService {
     
@@ -32,14 +33,14 @@ export class UserService {
     static async updateUser(params: any): Promise <User> {
         const userData = new User(params.id, params.username, params.name, params.email, params.cpf, params.password)
         if (!(UserRepository.getById(userData.id))) {
-            throw new Error("Usuário não encontrado.")
+            throw new UserNotFoundError()
         }
         return await UserRepository.update(userData) 
     }
 
     static async deleteUser(id: string): Promise <void> {
         if (!(UserRepository.getById(id))) {
-            throw new Error("Usuário não encontrado.")
+            throw new UserNotFoundError()
         }
         return await UserRepository.delete(id)
     }
