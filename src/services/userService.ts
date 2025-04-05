@@ -1,6 +1,8 @@
 import { UserRepository } from "../repositories/userRepository"
 import { User } from "../entities/User"
 import { UserNotFoundError } from "../errors/clientErrors/ClientErrors"
+import dotenv from "dotenv";
+dotenv.config();
 
 export class UserService {
     
