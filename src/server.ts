@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRouter from "./routes/userRoutes";
+import eventRouter from "./routes/eventRoutes";
 
 const app = express();
 
@@ -9,9 +10,9 @@ app.use(express.json());
 
 
 app.use("/users", userRouter);
+app.use("/events", eventRouter)
 
-// 🔹 Definição da porta do servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-	console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+	console.log(`http://localhost:${PORT}`);
 });
