@@ -12,6 +12,11 @@ export class AuthService {
             }
     
             
+            const valid = password === user.password
+            if (!valid) {
+                throw new Error("Senha incorreta")
+            }
+
             //const valid = await bcrypt.compare(password, user.password)
             //if (!valid) {
             //    throw { statusCode: 401, message: "Senha incorreta." }
