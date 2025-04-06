@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.use("/users", userRouter);
 app.use("/events", eventRouter)
-app.use("/test", authRouter)
+app.use("", authRouter)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -59,7 +59,15 @@ export class UserController {
 
 	static async deleteUser(req: Request, res: Response): Promise <any> {
 		try {
-			await UserService.deleteUser(req.params.id)
+
+			const userId = req.params.id;
+			const loggedUserId = (req as any).user.userId
+
+			if (userId !== loggedUserId) {
+				return res.status(403).json({ error: "Você só pode deletar sua própria conta." });
+			}
+
+			await UserService.deleteUser(userId)
 			res.json("Usuário deletado com sucesso.")
 		} catch (error: any) {
 			res.status(500).json({ message: "Erro ao buscar usuário", error: error.message });
