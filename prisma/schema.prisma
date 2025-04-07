@@ -15,7 +15,9 @@ model User {
   cpf String @unique
   password String
 
-  createdEvents Event[]
+  createdEvents  Event[]
+  
+  assignedEvents UsersOnEvents[]
 }
 
 model Event {
@@ -25,4 +27,16 @@ model Event {
 
   ownerId String
   owner User @relation(fields: [ownerId], references: [id])
+
+  assignedUsers UsersOnEvents[]
+}
+
+model UsersOnEvents {
+  @@id ([userId, eventId])
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  eventId String
+  event Event @relation(fields: [eventId], references: [id])
 }
