@@ -66,5 +66,28 @@ export class UserRepository {
         })
         return
     }
+
+    static async assignToEvent(userId: string, eventId: string) {
+        const prisma = new PrismaClient()
+        await prisma.usersOnEvents.create({
+            data: {
+                userId: userId,
+                eventId: eventId
+            }
+        })
+
+    }
+
+    static async unassignToEvent(userId: string, eventId: string) {
+        const prisma = new PrismaClient()
+        await prisma.usersOnEvents.delete({
+            where: {
+                userId_eventId: {
+                    userId: userId,
+                    eventId: eventId
+                }
+            }
+        })
+    }
 }
 
