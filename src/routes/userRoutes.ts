@@ -9,6 +9,8 @@ userRouter.get("/email", UserController.getUserByEmail)
 userRouter.get("/id/:id", UserController.getUserById)
 userRouter.post("/", UserController.createUser)
 userRouter.put("/", UserController.updateUser)
-userRouter.delete("/:id", authMiddleware, UserController.deleteUser)
+userRouter.delete("/", authMiddleware, UserController.deleteUser)
+userRouter.post("/event", UserController.assignUserToEvent)
+userRouter.delete("/event", UserController.unassignUserToEvent)
 
 export default userRouter
