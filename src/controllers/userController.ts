@@ -60,7 +60,7 @@ export class UserController {
 	static async deleteUser(req: Request, res: Response): Promise <any> {
 		try {
 
-			const userId = req.params.id;
+			const userId = req.body.id;
 			const loggedUserId = (req as any).user.userId
 
 			if (userId !== loggedUserId) {
@@ -71,6 +71,24 @@ export class UserController {
 			res.json("Usuário deletado com sucesso.")
 		} catch (error: any) {
 			res.status(500).json({ message: "Erro ao buscar usuário", error: error.message });
+		}
+	}
+
+	static async assignUserToEvent(req: Request, res: Response): Promise <any> {
+		try {
+			await UserService.assignUserToEvent(req.body)
+			res.json("Usuário adicionado com sucesso.")
+		} catch(error: any) {
+			res.status(500).json({ message: "Erro ao adicionar usuário", error: error.message });
+		}
+	}
+
+	static async unassignUserToEvent(req: Request, res: Response): Promise <any> {
+		try {
+			await UserService.unassignUserToEvent(req.body)
+			res.json("Usuário removido com sucesso.")
+		} catch(error: any) {
+			res.status(500).json({ message: "Erro ao remover usuário", error: error.message });
 		}
 	}
 	

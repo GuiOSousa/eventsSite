@@ -1,7 +1,8 @@
 import { UserRepository } from "../repositories/userRepository"
 import { User } from "../entities/User"
-import { UserNotFoundError } from "../errors/clientErrors/ClientErrors"
+import { EventNotFoundError, UserNotFoundError } from "../errors/clientErrors/ClientErrors"
 import dotenv from "dotenv";
+import { EventRepository } from "../repositories/eventRepository";
 dotenv.config();
 
 export class UserService {
@@ -46,4 +47,36 @@ export class UserService {
         }
         return await UserRepository.delete(id)
     }
+
+    static async assignUserToEvent(params: any): Promise <any> {
+        const userId = params.userId
+        const eventId = params.eventId
+
+        if (!userId || !UserRepository.getById(userId)) {
+            throw new UserNotFoundError()
+        }
+
+        if (!eventId || !EventRepository.getById(eventId)) {
+            throw new EventNotFoundError()
+        }
+
+        await UserRepository.assignToEvent(userId, eventId)
+    }
+
+    static async unassignUserToEvent(params: any): Promise <any> {
+        const userId = params.userId
+        const eventId = params.eventId
+
+        if (!UserRepository.getById(userId)) {
+            throw new UserNotFoundError()
+        }
+
+        if (!EventRepository.getById(eventId)) {
+            throw new EventNotFoundError()
+        }
+
+        await UserRepository.unassignToEvent(userId, eventId)
+    }
+
+
 }
