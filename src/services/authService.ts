@@ -11,16 +11,10 @@ export class AuthService {
                 throw { statusCode: 401, message: "Usuário não encontrado." }
             }
     
-            
-            const valid = password === user.password
+            const valid = await bcrypt.compare(password, user.password)
             if (!valid) {
-                throw new Error("Senha incorreta")
+                throw { statusCode: 401, message: "Senha incorreta." }
             }
-
-            //const valid = await bcrypt.compare(password, user.password)
-            //if (!valid) {
-            //    throw { statusCode: 401, message: "Senha incorreta." }
-            //}
     
     
             const token = jwt.sign(

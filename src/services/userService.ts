@@ -3,12 +3,14 @@ import { User } from "../entities/User"
 import { EventNotFoundError, UserNotFoundError } from "../errors/clientErrors/ClientErrors"
 import dotenv from "dotenv";
 import { EventRepository } from "../repositories/eventRepository";
+import bcrypt from 'bcrypt';
 dotenv.config();
 
 export class UserService {
     
     static async createUser(params: any){
-        const userData = new User(params.id, params.username, params.name, params.email, params.cpf, params.password)
+        const hashPassword = await bcrypt.hash(params.password, 10)
+        const userData = new User(params.id, params.username, params.name, params.email, params.cpf, hashPassword)
 
         if (userData.id != undefined) {
             if (await UserRepository.getById(userData.id)) {
